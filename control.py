@@ -1,189 +1,196 @@
-g1 = Grid()
-g2 = Grid()
-g3 = Grid()
+from grid import *
+from gridInit import *
+from tfsf import *
+from ezinc import *
+from update import *
+from snapshot import *
+from abc import *
+
+g1 = Grid
+g2 = Grid
+g3 = Grid
 
 class control:  
 
-    dimensions : Int
-    gridInit : GridInit
-    tfsf: TotalFieldScatteringField
-    abc : AbsorbingBoundaryCondition
-    snapshot : Snapshot
-    update : UpdateFunction
-    sourceFunction : SourceFunction
-
-    def initialize():
+    
+    def __init__(self,dimensions, gridInit, tfsf, abc, snapshot, update ,sourceFunction):
+        self.dimensions = dimensions
+        self.gridInit = gridInit
+        self.tfsf = tfsf
+        self.abc = abc
+        self.snapshot = snapshot
+        self.update = update
+        self.sourceFunction = sourceFunction
+    
+    def initialize(self):
         
         if self.dimensions == 1:
             g1 = self.gridInit.initialize()
-            self.tfsf.initialize(g : g1)
-            self.abc.initialize(g : g1)
-            self.snapshot.initialize(g : g1)
+            self.tfsf.initialize(g1)
+            self.abc.initialize(g1)
+            self.snapshot.initialize(g1)
             
         
         
-        else if self.dimensions == 2:
+        elif self.dimensions == 2:
             g2 = self.gridInit.initialize()
-            self.tfsf.initialize(g : g2)
-            self.abc.initialize(g : g2)
-            self.snapshot.initialize(g : g2)
+            self.tfsf.initialize(g2)
+            self.abc.initialize(g2)
+            self.snapshot.initialize(g2)
             
         
         if self.dimensions == 3:
             g3 = self.gridInit.initialize()
-            self.tfsf.initialize(g : g3)
-            self.abc.initialize(g : g3)
-            self.snapshot.initialize(g : g3)
+            self.tfsf.initialize(g3)
+            self.abc.initialize(g3)
+            self.snapshot.initialize(g3)
         
         
     
 
-    def iterate(maxTime: Int):
+    def iterate(maxTime):
 
         for t in range(maxTime):
             
             if self.dimensions == 1:
                 g1.time = t
-                self.update.magneticField(g : g1)
-                self.abc.apply(g : g1)
-                self.update.electricField(g : g1)
-                self.tfsf.update(g : g1)
-                self.sourceFunction.apply(time : Double(g1.time), location : 0.0)
-                self.snapshot.snap(g : g1)
+                self.update.magneticField(g1)
+                self.abc.apply(g1)
+                self.update.electricField(g1)
+                self.tfsf.update(g1)
+                self.sourceFunction.apply(float(g1.time),  0.0)
+                self.snapshot.snap(g1)
             
 
-            else if self.dimensions == 2:
+            elif self.dimensions == 2:
                 g2.time = t
-                self.update.magneticField(g : g2)
-                self.abc.apply(g : g2)
-                self.update.electricField(g : g2)
-                self.tfsf.update(g : g2)
-                self.sourceFunction.apply(time : Double(g2.time), location : 0.0)
-                self.snapshot.snap(g : g2)
+                self.update.magneticField(g2)
+                self.abc.apply(g2)
+                self.update.electricField(g2)
+                self.tfsf.update(g2)
+                self.sourceFunction.apply( float(g2.time),  0.0)
+                self.snapshot.snap(g2)
             
 
             else:
                 g3.time = t
-                self.update.magneticField(g : g3)
-                self.abc.apply(g : g3)
-                self.update.electricField(g : g3)
-                self.tfsf.update(g : g3)
-                self.sourceFunction.apply(time : Double(g3.time), location : 0.0)
-                self.snapshot.snap(g : g3)
+                self.update.magneticField(g3)
+                self.abc.apply(g3)
+                self.update.electricField(g3)
+                self.tfsf.update(g3)
+                self.sourceFunction.apply( float(g3.time),  0.0)
+                self.snapshot.snap(g3)
             
-           
+            print(ez1)
         
-        
-        writeToFile(FileURL: "dataFile", dataToWrite: DataString)
-    
 
-
-def create_remote() -> control:
+def create_remote() :
     
-    gridInit : GridInit
-    tfsf: TotalFieldScatteringField
-    abc : AbsorbingBoundaryCondition
+    gridInit = GridInit()
+    tfsf = TotalFieldScatteringField()
+    abc = AbsorbingBoundaryCondition()
     snapshot = Snapshot()
-    update : UpdateFunction
-    sourceFunction : SourceFunction
-    type : Int
+    update = UpdateFunction()
+    sourceFunction =  SourceFunction()
+    Type = 0 
 
     print("Enter dimensions of grid")
-    let dimensions = intInput()
+    dimensions = intInput()
     if dimensions == 1:
         
-        tfsf = plain1Dtfsf() as TotalFieldScatteringField
+        tfsf = plain1Dtfsf
         
         print("1 - absorbing boundary condition, 0 - reflection")
-        let boundaryType = intInput()
+        boundaryType = intInput()
 
         if boundaryType == 1:
-            abc = plain1Dabc() as AbsorbingBoundaryCondition
+            abc = plain1Dabc()
         
 
         else:
-            abc = emptyAbc() as AbsorbingBoundaryCondition
+            abc = emptyAbc()
         
         
-        gridInit = plain1DGridInit() as GridInit
-        update = oneDUpdate() as UpdateFunction
-        sourceFunction = ezInc() as SourceFunction
+        gridInit = plain1DGridInit()
+        update = oneDUpdate()
+        sourceFunction = ezInc()
     
 
-    else if dimensions == 2 :
+    elif dimensions == 2 :
 
         print("1 - tmz, 2 - tez")
-        let type2D = intInput()
+        type2D = intInput()
 
         if type2D == 1:
             
-            type = 1
-            tfsf = tmztfsf() as TotalFieldScatteringField
-            gridInit = tmzTfsfGridInit() as GridInit
-            update = tmzUpdate() as UpdateFunction
-            abc = tmzabc() as AbsorbingBoundaryCondition
+            Type = 1
+            tfsf = tmztfsf()
+            gridInit = tmzTfsfGridInit()
+            update = tmzUpdate()
+            abc = tmzabc()
         
 
         else:
-            type = 2
-            tfsf = teztfsf() as TotalFieldScatteringField
-            gridInit = tezGridInit() as GridInit
-            update = tezUpdate() as UpdateFunction
-            abc = tezabc() as AbsorbingBoundaryCondition
+            Type = 2
+            tfsf = teztfsf()
+            gridInit = tezGridInit()
+            update = tezUpdate()
+            abc = tezabc()
         
 
         print("1 - absorbing boundary condition, 0 - reflection")
-        let boundaryType = intInput()
+        boundaryType = intInput()
 
         if boundaryType == 0:
-            abc = emptyAbc() as AbsorbingBoundaryCondition
+            abc = emptyAbc()
         
         
-        sourceFunction = Ricker2D() as SourceFunction
+        sourceFunction = Ricker2D()
     
     else:
 
         print("1 - normal, 0 - sphere")
-        let type3D = intInput()
+        type3D = intInput()
         
 
-        tfsf = tfsf3d() as TotalFieldScatteringField
-        update = update3D() as UpdateFunction
-        abc = abc3d() as AbsorbingBoundaryCondition
+        tfsf = tfsf3d()
+        update = update3D()
+        abc = abc3d()
         
         if type3D == 1:
-            gridInit = GridInit3D(isSpherePresent : false) as GridInit
+            gridInit = GridInit3D(false) 
         
         else:
-            gridInit = GridInit3D(isSpherePresent : true) as GridInit
+            gridInit = GridInit3D(true) 
         
         
         print("1 - absorbing boundary condition, 0 - reflection")
-        let boundaryType = intInput()
+        boundaryType = intInput()
 
         if boundaryType == 0:
-            abc =  emptyAbc() as AbsorbingBoundaryCondition
+            abc =  emptyAbc()
         
         
-        sourceFunction = Ricker2D() as SourceFunction
+        sourceFunction = Ricker2D()
     
     
     print("1 - additive source 0 - tfsf? ")
-    let sourceInitiator = intInput()
+    sourceInitiator = intInput()
     
     if sourceInitiator == 1:
-        tfsf = emptytfsf() as TotalFieldScatteringField
-        sourceFunction = additiveSourceFunction() as SourceFunction
+        tfsf = emptytfsf()
+        sourceFunction = additiveSourceFunction()
     
 
 
-    return control(dimensions:dimensions, gridInit : gridInit, tfsf: tfsf, abc : abc, snapshot : snapshot, update : update, sourceFunction : sourceFunction)
+    return control(dimensions,  gridInit,  tfsf,  abc, snapshot,  update,  sourceFunction)
 
 
 def runSimulation():
 
     ben = create_remote()
     ben.initialize()
-    ben.iterate(maxTime : 450)
+    ben.iterate(450)
 
 
+runSimulation()

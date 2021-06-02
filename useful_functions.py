@@ -1,14 +1,14 @@
 
 
-def mqn(m:Int, q:Int, n:Int):
+def mqn(m, q, n):
     return m * 6 + q + 3 * n
 
 
-def nqm(n:Int, q:Int, m:Int) :
-    return mqn(m:n, q:q, n:m)
+def nqm(n, q, m) :
+    return mqn(n, q, m)
 
 
-def ngp(n: Int, g:Int, p: Int):
+def ngp(n, g, p):
     return (n * g) + p
 
 

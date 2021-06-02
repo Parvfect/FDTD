@@ -1,8 +1,11 @@
 
+from grid import *
+
+
 class UpdateFunction:
     
-    def magneticField(g)
-    def electricField(g)
+    def magneticField(g):return
+    def electricField(g):return
 
 
 class tmzUpdate(UpdateFunction) :
@@ -26,11 +29,7 @@ class tmzUpdate(UpdateFunction) :
             for mm in range(0, g.size_x - 1):
                 for nn in range(0,g.size_y):
                     hy[mm][nn] = chyh[mm][nn] * hy[mm][nn] + chye[mm][nn] * (ez[mm + 1][nn] - ez[mm][nn])
-                
-                
-            
-        
-    
+
 
     def electricField(g) :
         
@@ -129,11 +128,11 @@ class update3D(UpdateFunction):
             
             oneDUpdate().magneticField(g)
             
-         else if (g.type == 2) :
+        elif (g.type == 2) :
             
             tmzUpdate().magneticField(g)
             
-         else if (g.type == 3) :
+        elif (g.type == 3) :
             
             tezUpdate().magneticField(g)
         
@@ -143,9 +142,7 @@ class update3D(UpdateFunction):
             for mm in range(0, g.size_x - 1) :
                 for nn in range(0,g.size_y - 1) :
                     for pp in range( 0,g.size_z - 1) :
-                        hx3[mm][nn][pp] = chxh3[mm][nn][pp] * hx3[mm][nn][pp] +
-                            chxe3[mm][nn][pp] * ((ey3[mm][nn][pp + 1] - ey3[mm][nn][pp]) -
-                                (ez3[mm][nn + 1][pp] - ez3[mm][nn][pp]))
+                        hx3[mm][nn][pp] = chxh3[mm][nn][pp] * hx3[mm][nn][pp] +chxe3[mm][nn][pp] * ((ey3[mm][nn][pp + 1] - ey3[mm][nn][pp]) -(ez3[mm][nn + 1][pp] - ez3[mm][nn][pp]))
                     
                 
             
@@ -153,9 +150,7 @@ class update3D(UpdateFunction):
             for mm in range( 0,g.size_x - 1):
                 for nn in range( 0,g.size_y - 1) :
                     for pp in range( 0,g.size_z - 1) :
-                        hy3[mm][nn][pp] = chyh3[mm][nn][pp] * hy3[mm][nn][pp] +
-                            chye3[mm][nn][pp] * ((ez3[mm + 1][nn][pp] - ez3[mm][nn][pp]) -
-                                (ex3[mm][nn][pp + 1] - ex3[mm][nn][pp]))
+                        hy3[mm][nn][pp] = chyh3[mm][nn][pp] * hy3[mm][nn][pp] +  chye3[mm][nn][pp] * ((ez3[mm + 1][nn][pp] - ez3[mm][nn][pp]) -  (ex3[mm][nn][pp + 1] - ex3[mm][nn][pp]))
                     
                 
             
@@ -163,9 +158,7 @@ class update3D(UpdateFunction):
             for mm in range( 0,g.size_x - 1) :
                 for nn in range( 0,g.size_y - 1) :
                     for pp in range( 0,g.size_z):
-                        hz3[mm][nn][pp] = chzh3[mm][nn][pp] * hz3[mm][nn][pp] +
-                            chze3[mm][nn][pp] * ((ex3[mm][nn + 1][pp] - ex3[mm][nn][pp]) -
-                                (ey3[mm + 1][nn][pp] - ey3[mm][nn][pp]))
+                        hz3[mm][nn][pp] = chzh3[mm][nn][pp] * hz3[mm][nn][pp] +chze3[mm][nn][pp] * ((ex3[mm][nn + 1][pp] - ex3[mm][nn][pp]) -(ey3[mm + 1][nn][pp] - ey3[mm][nn][pp]))
                     
                 
             
@@ -178,11 +171,11 @@ class update3D(UpdateFunction):
             
             oneDUpdate().electricField(g)
             
-         else if (g.type == 2) :
+        elif (g.type == 2) :
             
             tmzUpdate().electricField(g)
             
-         else if (g.type == 3) :
+        elif (g.type == 3) :
             
             tezUpdate().electricField(g)
             
@@ -193,9 +186,7 @@ class update3D(UpdateFunction):
             for mm in range( 0,g.size_x - 1) :
                 for nn in range( 1,g.size_y - 1):
                     for pp in range( 1,g.size_z - 1):
-                        ex3[mm][nn][pp] = cexe3[mm][nn][pp] * ex3[mm][nn][pp] +
-                            cexh3[mm][nn][pp] * ((hz3[mm][nn][pp] - hz3[mm][nn - 1][pp]) -
-                                (hy3[mm][nn][pp] - hy3[mm][nn][pp - 1]))
+                        ex3[mm][nn][pp] = cexe3[mm][nn][pp] * ex3[mm][nn][pp] +cexh3[mm][nn][pp] * ((hz3[mm][nn][pp] - hz3[mm][nn - 1][pp]) -(hy3[mm][nn][pp] - hy3[mm][nn][pp - 1]))
                     
                 
             
@@ -203,9 +194,7 @@ class update3D(UpdateFunction):
             for mm in range( 1,g.size_x - 1):
                 for nn in range( 0,g.size_y - 1):
                     for pp in range( 1,g.size_z - 1):
-                        ey3[mm][nn][pp] = ceye3[mm][nn][pp] * ey3[mm][nn][pp] +
-                            ceyh3[mm][nn][pp] * ((hx3[mm][nn][pp] - hx3[mm][nn][pp - 1]) -
-                                (hz3[mm][nn][pp] - hz3[mm - 1][nn][pp]))
+                        ey3[mm][nn][pp] = ceye3[mm][nn][pp] * ey3[mm][nn][pp] +ceyh3[mm][nn][pp] * ((hx3[mm][nn][pp] - hx3[mm][nn][pp - 1]) -(hz3[mm][nn][pp] - hz3[mm - 1][nn][pp]))
                     
                 
             
@@ -213,9 +202,7 @@ class update3D(UpdateFunction):
             for mm in range( 1,g.size_x - 1):
                 for nn in range( 1,g.size_y - 1):
                     for pp in range( 0,g.size_z - 1):
-                        ez3[mm][nn][pp] = ceze3[mm][nn][pp] * ez3[mm][nn][pp] +
-                            cezh3[mm][nn][pp] * ((hy3[mm][nn][pp] - hy3[mm - 1][nn][pp]) -
-                                (hx3[mm][nn][pp] - hx3[mm][nn - 1][pp]))
+                        ez3[mm][nn][pp] = ceze3[mm][nn][pp] * ez3[mm][nn][pp] +cezh3[mm][nn][pp] * ((hy3[mm][nn][pp] - hy3[mm - 1][nn][pp]) -(hx3[mm][nn][pp] - hx3[mm][nn - 1][pp]))
                     
                 
             

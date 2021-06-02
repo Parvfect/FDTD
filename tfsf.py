@@ -1,13 +1,15 @@
-import Foundation
+from grid import *
+from gridInit import *
+from ezinc import *
 
 class TotalFieldScatteringField:
-     def  initialize(g)
-    def  update(g)
+    def  initialize(self, g):return
+    def  update(self, g): return
 
 
-class emptytfsf (TotalFieldScatteringField):
-     def  initialize(g):
-    def  update(g):
+class emptytfsf(TotalFieldScatteringField):
+    def  initialize(self, g): return
+    def  update(self, g): return
 
 
 class teztfsf (TotalFieldScatteringField) :
@@ -20,7 +22,7 @@ class teztfsf (TotalFieldScatteringField) :
     
     aux_grid = auxillaryHzGridInit().initialize()
     
-     def  initialize(g) :
+    def  initialize(self, g) :
     
         firstX = 2
         firstY = 22
@@ -29,7 +31,7 @@ class teztfsf (TotalFieldScatteringField) :
         g1 = aux_grid
     
 
-    def  update(g):
+    def  update(self, g):
         
         mm = 0
         nn = 0
@@ -87,7 +89,7 @@ class tmztfsf (TotalFieldScatteringField) :
 
     aux_grid = auxillaryEzGridInit().initialize()
 
-     def  initialize(g) :
+    def  initialize(self, g) :
         
         firstX = 2
         firstY = 5
@@ -96,7 +98,7 @@ class tmztfsf (TotalFieldScatteringField) :
         g1 = aux_grid
     
 
-    def  update(g):
+    def  update(self, g):
         
         mm = 0
         nn = 0
@@ -126,9 +128,9 @@ class tmztfsf (TotalFieldScatteringField) :
             hx[mm][nn] -= chxe[mm][nn] * ez1[mm]
         
         
-        tmzUpdate().magneticField(g : g1)   
-        tmzUpdate().electricField(g : g1)   
-        ez1[0] = ezInc().apply(time: Double(g1.time) ,location: 0.0) 
+        tmzUpdate().magneticField(g1)   
+        tmzUpdate().electricField(g1)   
+        ez1[0] = ezInc().apply(Double(g1.time) ,0.0) 
         g1.time += 1    
         
         mm = firstX
@@ -145,24 +147,24 @@ class tmztfsf (TotalFieldScatteringField) :
 
 class plain1Dtfsf (TotalFieldScatteringField) :
     
-    tfsfBoundary: Int = 0
+    tfsfBoundary = 0
     ezIncdef  = ezInc()
 
-     def  initialize(g) :
+    def  initialize(self, g) :
         
         tfsfBoundary = 10
-        ezIncdef .initialize(g : g)    
+        ezIncdef .initialize(g)    
     
     
-    def  update(g) :
+    def  update(self, g) :
         
         if (tfsfBoundary <= 0) :
             print("ERROR : Boundary location must be set to a positive value")
         
         
-        hy1[tfsfBoundary] -= ezIncdef .apply(time : Double(g1.time), location:0.0) * chye1[tfsfBoundary]
+        hy1[tfsfBoundary] -= ezIncdef .apply(Double(g1.time), 0.0) * chye1[tfsfBoundary]
         
-        ez1[tfsfBoundary + 1] += ezIncdef .apply(time : (Double(g1.time) + 0.5) , location : -0.5)
+        ez1[tfsfBoundary + 1] += ezIncdef .apply((Double(g1.time) + 0.5) ,  -0.5)
     
 
 
@@ -178,18 +180,12 @@ class tfsf3d (TotalFieldScatteringField) :
 
     aux_grid = aux3DGridInit().initialize() 
 
-     def  initialize(g) :
+    def  initialize(self, g) :
         g1 = aux_grid
     
     
-    def  update(g) :
+    def  update(self, g) :
         
-        mm = 0, nn = 0, pp = 0
-        
-        if (firstX <= 0):
-        print("tfsf: tfsfInit must be called before tfsfUpdate.\nBoundary location must be set to positive value.\n")
-        
-    
         mm = firstX
         for nn in range(firstY,lastY):
             for pp in range(firstZ,lastZ):
